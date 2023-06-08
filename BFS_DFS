@@ -1,0 +1,94 @@
+#include <stdio.h>
+int a[10][10];
+int q[10],f=-1,r=-1;
+int visited[10];
+int n;
+void qinsert(int x)
+{
+    q[++r]=x;
+    if(f==-1)
+    f=0;
+}
+int qdelete()
+{
+    int x;
+    x=q[f];
+    if(f==r)
+    {f=-1;
+    r=-1;
+    }
+    else
+    f++;
+    return x;
+}
+int qempty(){
+    if(f==-1)
+    return 1;
+    else
+    return 0;
+}
+void bfs(int v){
+    int x,j;
+    x=v;
+    qinsert(x);
+    while(1)
+    {
+        visited[x]=1;
+        for(j=0;j<n;j++)
+        {
+            if((visited[j]==0)&&(a[x][j]!=0))
+             {
+                 qinsert(j);
+                visited[j]=1;
+             }
+        }
+        if(qempty())
+        return;
+        x=qdelete();
+        printf("%d->",x+1);
+    }
+}
+void dfs(int v){
+	int j;
+    
+    visited[v]=1;
+    printf("%d->",v+1);
+    for(j=0;j<n;j++)
+    {
+        if((visited[j]==0)&&(a[v][j]==1))
+        {
+            dfs(j);
+        }
+    }
+}
+int main() {
+    int u,v,ch,i,j;
+    printf("\nEnter the number of nodes:");
+    scanf("%d",&n);
+    printf("\nEnter the edges:");
+    while(1)
+    {
+        scanf("%d%d",&u,&v);
+        if(u==-1)
+        break;
+        else
+        {a[u-1][v-1]=1;
+        a[v-1][u-1]=1;
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+    for(j=0;j<n;j++)
+    printf("%3d",a[i][j]);
+    
+    printf("\n");
+    }
+    
+    printf("1.BFS\n2.DFS\n Enter your choice:");
+    scanf("%d",&ch);
+    if(ch==1)
+    bfs(0);
+    else
+    dfs(0);
+    return 0;
+}
