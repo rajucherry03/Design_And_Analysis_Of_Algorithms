@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int set[100];
+int subset[100];
+int n, d,i;
+
+void findSubset(int sum, int k) {
+    if (sum == d) {
+        printf("Subset with sum %d: ", d);
+        for (i = 0; i < k; i++) {
+            printf("%d ", subset[i]);
+        }
+        printf("\n");
+        return;
+    }
+    if (sum > d || k >= n) {
+        return;
+    }
+    subset[k] = set[k];
+    findSubset(sum + set[k], k + 1);
+    subset[k] = 0;
+    findSubset(sum, k + 1);
+}
+
+int main() {
+	int i;
+    printf("Enter the number of elements in the set: ");
+    scanf("%d", &n);
+
+    printf("Enter the elements of the set:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &set[i]);
+    }
+
+    printf("Enter the target sum: ");
+    scanf("%d", &d);
+
+    printf("Solution(s):\n");
+    findSubset(0, 0);
+
+    return 0;
+}
+
